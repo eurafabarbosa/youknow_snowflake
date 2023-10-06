@@ -65,3 +65,4 @@ option = st.selectbox(
     'Select Snowflake Channel',
     (snowflake_channels))
 
+row1_col1, row1_col2, row1_col3= st.columns((3,3,3))
