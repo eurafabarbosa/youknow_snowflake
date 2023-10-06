@@ -30,7 +30,7 @@ conn = snowflake.connector.connect(
     client_session_keep_alive=True)
 
 
-#session = Session.builder.configs(snowflake_conn).create()
+snowflakecursor = conn.cursor()
 
 
 st.title("YouKnow_X: Your daily digest :hamburger:")
