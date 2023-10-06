@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 import streamlit as st
-import pinecone
+#import pinecone
 
 from snowflake.snowpark import Session
 
@@ -18,7 +18,19 @@ st.set_page_config(
     },
 )
 
-# Everything is accessible via the st.secrets dict:
+snowflake_conn = {
+   "account": st.secrets["account"],
+   "user": st.secrets["user"],
+   "password": st.secrets["password"],
+   "role": st.secrets["role"],
+   "database": st.secrets["database"],
+   "schema": st.secrets["schema"],
+   "warehouse": st.secrets["warehouse"],
+   "CLIENT_SESSION_KEEP_ALIVE": st.secrets["CLIENT_SESSION_KEEP_ALIVE"]
+}
+
+session = Session.builder.configs(snowflake_conn).create()
+
 
 st.title("YouKnow_X: Your daily digest :hamburger:")
 
