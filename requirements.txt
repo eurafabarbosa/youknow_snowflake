@@ -2,3 +2,4 @@
 
 pandas
 streamlit
+snowflake-snowpark-python==0.7.0

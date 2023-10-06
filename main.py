@@ -3,7 +3,7 @@ import numpy as np
 import streamlit as st
 #import pinecone
 
-#from snowflake.snowpark import Session
+from snowflake.snowpark import Session
 
 
 st.set_page_config(
