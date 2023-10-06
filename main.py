@@ -3,7 +3,7 @@ import numpy as np
 import streamlit as st
 #import pinecone
 
-from snowflake.snowpark import Session
+#from snowflake.snowpark import Session
 
 
 st.set_page_config(
@@ -28,6 +28,8 @@ snowflake_conn = {
    "warehouse": st.secrets["warehouse"],
    "CLIENT_SESSION_KEEP_ALIVE": st.secrets["CLIENT_SESSION_KEEP_ALIVE"]
 }
+
+st.write(snowflake_conn)
 
 #session = Session.builder.configs(snowflake_conn).create()
 
