@@ -46,11 +46,11 @@ cs = conn.cursor()
 
 #session = Session.builder.configs(snowflake_conn).create()
 
-sql = "select 1"
+sql = 'SELECT * FROM VIDEOS LIMIT 3'
 cs.execute(sql)
-first_row = cs.fetchone()
-print(first_row[0])
+df = cs.fetch_pandas_all()
 
+#snow_df = session.sql(f"SELECT * FROM  VIDEOS WHERE AUTHOR LIKE '{filter}' order by PUB_DATE_MS DESC LIMIT 3").collect()
 
 st.title("YouKnow_X: Your daily digest :hamburger:")
 
