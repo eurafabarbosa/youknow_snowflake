@@ -29,7 +29,7 @@ snowflake_conn = {
    "CLIENT_SESSION_KEEP_ALIVE": st.secrets["CLIENT_SESSION_KEEP_ALIVE"]
 }
 
-session = Session.builder.configs(snowflake_conn).create()
+#session = Session.builder.configs(snowflake_conn).create()
 
 
 st.title("YouKnow_X: Your daily digest :hamburger:")
