@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import streamlit as st
 #import pinecone
+from streamlit_player import st_player
 
 #from snowflake.snowpark import Session
 import snowflake.connector
