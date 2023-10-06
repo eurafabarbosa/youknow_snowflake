@@ -29,7 +29,6 @@ conn = snowflake.connector.connect(
     password=st.secrets["password"],
     client_session_keep_alive=True)
 
-st.write(snowflake_conn)
 
 #session = Session.builder.configs(snowflake_conn).create()
 
