@@ -50,6 +50,8 @@ sql = 'SELECT * FROM VIDEOS LIMIT 3'
 cs.execute(sql)
 df = cs.fetch_pandas_all()
 
+st.write(df)
+
 #snow_df = session.sql(f"SELECT * FROM  VIDEOS WHERE AUTHOR LIKE '{filter}' order by PUB_DATE_MS DESC LIMIT 3").collect()
 
 st.title("YouKnow_X: Your daily digest :hamburger:")
