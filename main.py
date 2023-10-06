@@ -46,9 +46,9 @@ cs = conn.cursor()
 
 #session = Session.builder.configs(snowflake_conn).create()
 
-#sql = 'SELECT * FROM VIDEOS LIMIT 3'
-#cs.execute(sql)
-#df = cs.fetch_pandas_all()
+sql = 'SELECT * FROM VIDEOS LIMIT 3'
+cs.execute(sql)
+df = cs.fetch_pandas_all()
 
 #st.write(df)
 
@@ -66,3 +66,6 @@ option = st.selectbox(
     (snowflake_channels))
 
 row1_col1, row1_col2, row1_col3= st.columns((3,3,3))
+
+with row1_col1:
+    st_player(df.VID_URL.iloc[0], key="col1a_player")
