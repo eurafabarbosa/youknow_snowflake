@@ -46,16 +46,22 @@ cs = conn.cursor()
 
 #session = Session.builder.configs(snowflake_conn).create()
 
-sql = 'SELECT * FROM VIDEOS LIMIT 3'
-cs.execute(sql)
-df = cs.fetch_pandas_all()
+#sql = 'SELECT * FROM VIDEOS LIMIT 3'
+#cs.execute(sql)
+#df = cs.fetch_pandas_all()
 
-st.write(df)
+#st.write(df)
 
 #snow_df = session.sql(f"SELECT * FROM  VIDEOS WHERE AUTHOR LIKE '{filter}' order by PUB_DATE_MS DESC LIMIT 3").collect()
 
 st.title("YouKnow_X: Your daily digest :hamburger:")
 
 
+st.title(':tv: Videos')
 
+snowflake_channels = cs.execute('SELECT Distinct AUTHOR FROM VIDEOS')
+#snowflake_channels = session.sql(f"SELECT Distinct AUTHOR FROM VIDEOS").collect()
+option = st.selectbox(
+    'Select Snowflake Channel',
+    (snowflake_channels))
 
