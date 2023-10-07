@@ -38,7 +38,7 @@ conn = snowflake.connector.connect(
 ############
 pinecone.init(
     api_key=st.secrets["pinecone_api_key"],  # app.pinecone.io
-    environment=t.secrets["pinecone_api_key_environment"]
+    environment=st.secrets["pinecone_api_key_environment"]
 )
 index = pinecone.Index(st.secrets["pinecone_index_id"])
 
