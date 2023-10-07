@@ -59,7 +59,7 @@ st.title("YouKnow_Snow: The place for all your Snowflake Questions :snowflake:")
 
 st.title(':tv: Videos')
 
-cs.execute('SELECT Distinct AUTHOR FROM VIDEOS WHERE AUTHOR LIKE "Snowflake%"')
+cs.execute("SELECT Distinct AUTHOR FROM VIDEOS WHERE AUTHOR LIKE 'Snowflake%' ")
 snowflake_channels = cs.fetch_pandas_all()
 filter = st.selectbox(
     'Select Snowflake Channel',
