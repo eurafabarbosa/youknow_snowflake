@@ -43,20 +43,27 @@ conn = snowflake.connector.connect(
     password=st.secrets["password"],
     client_session_keep_alive=True)
 
+######
+#Pinecone
+######
+pinecone.init(
+    api_key=st.secrets["pinecone_api_key"],  # app.pinecone.io
+    environment=t.secrets["pinecone_api_key_environment"]
+)
+index = pinecone.Index(st.secrets["pinecone_index_id"])
+
+
+
+
+
 cs = conn.cursor()
 
-#session = Session.builder.configs(snowflake_conn).create()
 
-#sql = 'SELECT * FROM VIDEOS LIMIT 3'
-#cs.execute(sql)
-#df = cs.fetch_pandas_all()
 
-#st.write(df)
 
-#snow_df = session.sql(f"SELECT * FROM  VIDEOS WHERE AUTHOR LIKE '{filter}' order by PUB_DATE_MS DESC LIMIT 3").collect()
+
 
 st.title("YouKnow_Snow: The place for all your Snowflake Questions :snowflake:")
-
 
 st.title(':tv: Videos')
 
@@ -74,7 +81,8 @@ st.write(snow_df)
 
 query = st.text_input('Ask a question about Snowflake', '', key="vid_search")
 st.write(query)
-#if query:
+if query:
+    st.write(query)
 #    xq = model.encode(query).tolist()
 #    response = index.query(xq, top_k=3, include_metadata=True)
 #    start = response['matches'][0]['metadata']['start']
