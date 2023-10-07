@@ -3,6 +3,7 @@ import numpy as np
 import streamlit as st
 import pinecone
 from streamlit_player import st_player
+from sentence_transformers import SentenceTransformer
 
 #from snowflake.snowpark import Session
 import snowflake.connector
@@ -21,17 +22,6 @@ st.set_page_config(
 )
 
 
-snowflake_conn = {
-  "account": st.secrets["account"],
-  "user": st.secrets["user"],
-  "password": st.secrets["password"],
-  "role": st.secrets["role"],
-  "warehouse": st.secrets["warehouse"],
-  "database": st.secrets["database"],
-  "schema": st.secrets["schema"]
-}
-
-
 # Create a Snowflake connection function
 conn = snowflake.connector.connect(
     account=st.secrets["account"],
@@ -43,17 +33,19 @@ conn = snowflake.connector.connect(
     password=st.secrets["password"],
     client_session_keep_alive=True)
 
-######
-#Pinecone
-######
+############
+# Pinecone #
+############
 pinecone.init(
     api_key=st.secrets["pinecone_api_key"],  # app.pinecone.io
     environment=t.secrets["pinecone_api_key_environment"]
 )
 index = pinecone.Index(st.secrets["pinecone_index_id"])
 
-
-
+#############
+# Embedding #
+#############
+model = SentenceTransformer("multi-qa-mpnet-base-dot-v1")
 
 
 cs = conn.cursor()
@@ -69,8 +61,6 @@ st.title(':tv: Videos')
 
 cs.execute('SELECT Distinct AUTHOR FROM VIDEOS')
 snowflake_channels = cs.fetch_pandas_all()
-#snowflake_channels = str(snowflake_channels)
-#snowflake_channels = session.sql(f"SELECT Distinct AUTHOR FROM VIDEOS").collect()
 filter = st.selectbox(
     'Select Snowflake Channel',
     (snowflake_channels))
