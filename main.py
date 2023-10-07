@@ -73,12 +73,12 @@ query = st.text_input('Ask a question about Snowflake', '', key="vid_search")
 st.write(query)
 if query:
     st.write(query)
-#    xq = model.encode(query).tolist()
-#    response = index.query(xq, top_k=3, include_metadata=True)
-#    start = response['matches'][0]['metadata']['start']
-#    url = response['matches'][0]['metadata']['title']+'&t='+str(start)+'s'
-#    st_player(url, key="question_player")
-    #st.write(url)
+    xq = model.encode(query).tolist()
+    response = index.query(xq, top_k=3, include_metadata=True)
+    start = response['matches'][0]['metadata']['start']
+    url = response['matches'][0]['metadata']['title']+'&t='+str(start)+'s'
+    st_player(url, key="question_player")
+    st.write(url)
 #    st.write(response['matches'])
 
 
