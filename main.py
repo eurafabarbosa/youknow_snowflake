@@ -65,7 +65,7 @@ filter = st.selectbox(
     'Select Snowflake Channel',
     (snowflake_channels))
 
-cs.execute(f"SELECT * FROM  VIDEOS WHERE AUTHOR LIKE '{filter}' order by PUB_DATE_MS DESC LIMIT 4")
+cs.execute(f"SELECT * FROM  VIDEOS WHERE AUTHOR LIKE '{filter}' order by PUB_DATE_MS DESC LIMIT 3")
 snow_df = cs.fetch_pandas_all()
 
 query = st.text_input('Ask a question about Snowflake', '', key="vid_search")
@@ -80,28 +80,30 @@ if query:
 #    st.write(response['matches'])
 
 
+st.header('Newest Videos')
+
 row1_col1, row1_col2, row1_col3= st.columns((3,3,3))
 
 with row1_col1:
-    st_player(snow_df.VID_URL.iloc[1], key="col1a_player")
+    st_player(snow_df.VID_URL.iloc[0], key="col1a_player")
+    expander = st.expander(":robot_face: See summary")
+    expander.write(
+        snow_df.SUMMARY.iloc[0]
+    )
+
+
+with row1_col2:
+    st_player(snow_df.VID_URL.iloc[1], key="col2a_player")
     expander = st.expander(":robot_face: See summary")
     expander.write(
         snow_df.SUMMARY.iloc[1]
     )
 
 
-with row1_col2:
-    st_player(snow_df.VID_URL.iloc[2], key="col2a_player")
+
+with row1_col3:
+    st_player(snow_df.VID_URL.iloc[2], key="col3a_player")
     expander = st.expander(":robot_face: See summary")
     expander.write(
         snow_df.SUMMARY.iloc[2]
-    )
-
-
-
-with row1_col3:
-    st_player(snow_df.VID_URL.iloc[3], key="col3a_player")
-    expander = st.expander(":robot_face: See summary")
-    expander.write(
-        snow_df.SUMMARY.iloc[3]
     )
