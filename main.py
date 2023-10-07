@@ -49,22 +49,36 @@ cs = conn.cursor()
 
 sql = 'SELECT * FROM VIDEOS LIMIT 3'
 cs.execute(sql)
-df = cs.fetch_pandas_all()
+#df = cs.fetch_pandas_all()
 
 #st.write(df)
 
 #snow_df = session.sql(f"SELECT * FROM  VIDEOS WHERE AUTHOR LIKE '{filter}' order by PUB_DATE_MS DESC LIMIT 3").collect()
 
-st.title("YouKnow_X: Your daily digest :hamburger:")
+st.title("YouKnow_Snow: The place for all your Snowflake Questions :snowflake:")
 
 
 st.title(':tv: Videos')
 
 snowflake_channels = cs.execute('SELECT Distinct AUTHOR FROM VIDEOS')
 #snowflake_channels = session.sql(f"SELECT Distinct AUTHOR FROM VIDEOS").collect()
-option = st.selectbox(
+filter = st.selectbox(
     'Select Snowflake Channel',
     (snowflake_channels))
+
+snow_df = cs.execute(f"SELECT * FROM  VIDEOS WHERE AUTHOR LIKE '{filter}' order by PUB_DATE_MS DESC LIMIT 3").collect()
+st.write(snow_df)
+query = st.text_input('Ask a question about Snowflake', '', key="vid_search")
+st.write(query)
+#if query:
+#    xq = model.encode(query).tolist()
+#    response = index.query(xq, top_k=3, include_metadata=True)
+#    start = response['matches'][0]['metadata']['start']
+#    url = response['matches'][0]['metadata']['title']+'&t='+str(start)+'s'
+#    st_player(url, key="question_player")
+    #st.write(url)
+#    st.write(response['matches'])
+
 
 row1_col1, row1_col2, row1_col3= st.columns((3,3,3))
 
