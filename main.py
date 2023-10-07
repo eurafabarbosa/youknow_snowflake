@@ -55,7 +55,7 @@ cs = conn.cursor()
 
 
 
-st.title("YouKnow_Snow: The place for all your Snowflake Questions :snowflake:")
+st.title("YouKnow_Snow: The place to answer all your Snowflake Questions :snowflake:")
 
 st.title(':tv: Videos')
 
