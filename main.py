@@ -61,6 +61,7 @@ st.title("YouKnow_Snow: The place for all your Snowflake Questions :snowflake:")
 st.title(':tv: Videos')
 
 snowflake_channels = cs.execute('SELECT Distinct AUTHOR FROM VIDEOS')
+snowflake_channels = snowflake_channels[2:-3 ]
 #snowflake_channels = session.sql(f"SELECT Distinct AUTHOR FROM VIDEOS").collect()
 filter = st.selectbox(
     'Select Snowflake Channel',
