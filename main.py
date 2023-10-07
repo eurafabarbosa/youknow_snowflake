@@ -69,7 +69,6 @@ cs.execute(f"SELECT * FROM  VIDEOS WHERE AUTHOR LIKE '{filter}' order by PUB_DAT
 snow_df = cs.fetch_pandas_all()
 
 query = st.text_input('Ask a question about Snowflake', '', key="vid_search")
-st.write(query)
 if query:
     xq = model.encode(query).tolist()
     response = index.query(xq, top_k=3, include_metadata=True)
