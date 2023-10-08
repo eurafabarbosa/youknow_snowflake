@@ -54,6 +54,22 @@ cs = conn.cursor()
 
 
 
+# HANDLERS
+
+def on_api_key_change():
+	api_key = ss.get('api_key') or os.getenv('OPENAI_KEY')
+	model.use_key(api_key) # TODO: empty api_key
+	#
+	if 'data_dict' not in ss: ss['data_dict'] = {} # used only with DictStorage
+	ss['storage'] = storage.get_storage(api_key, data_dict=ss['data_dict'])
+	ss['cache'] = cache.get_cache()
+	ss['user'] = ss['storage'].folder # TODO: refactor user 'calculation' from get_storage
+	model.set_user(ss['user'])
+	ss['feedback'] = feedback.get_feedback_adapter(ss['user'])
+	ss['feedback_score'] = ss['feedback'].get_score()
+	#
+	ss['debug']['storage.folder'] = ss['storage'].folder
+	ss['debug']['storage.class'] = ss['storage'].__class__.__name__
 
 
 # LAYOUT
