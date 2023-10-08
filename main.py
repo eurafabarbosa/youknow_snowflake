@@ -45,7 +45,7 @@ index = pinecone.Index(st.secrets["pinecone_index_id"])
 #############
 # Embedding #
 #############
-model = SentenceTransformer("multi-qa-mpnet-base-dot-v1")
+#model = SentenceTransformer("multi-qa-mpnet-base-dot-v1")
 
 
 cs = conn.cursor()
@@ -54,6 +54,15 @@ cs = conn.cursor()
 
 
 
+# LAYOUT
+
+# sidebar
+with st.sidebar:
+    pass
+
+
+
+# page
 
 st.title("YouKnow_Snow")
 st.header("The place to answer all your Snowflake Questions :snowflake:")
@@ -71,7 +80,8 @@ snow_df = cs.fetch_pandas_all()
 
 query = st.text_input('Ask a question about Snowflake', '', key="vid_search")
 if query:
-    xq = model.encode(query).tolist()
+    #xq = model.encode(query).tolist()
+    xq = None
     response = index.query(xq, top_k=3, include_metadata=True)
     start = response['matches'][0]['metadata']['start']
     url = response['matches'][0]['metadata']['title']+'&t='+str(start)+'s'
