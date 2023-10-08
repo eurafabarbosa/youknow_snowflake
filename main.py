@@ -3,7 +3,7 @@ import numpy as np
 import streamlit as st
 import pinecone
 from streamlit_player import st_player
-from sentence_transformers import SentenceTransformer
+#from sentence_transformers import SentenceTransformer
 
 #from snowflake.snowpark import Session
 import snowflake.connector
