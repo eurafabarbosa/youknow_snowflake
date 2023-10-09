@@ -82,7 +82,7 @@ with st.sidebar:
     else:
         #st.write("You Need to wait a little bit longer for this feature. It will be available in the upcoming release.")
         st.write('## 1. Enter your OpenAI API key')
-        openai_key = st.text_input('OpenAI API key', type='password', key='api_key', on_change=on_api_key_change, label_visibility="collapsed")
+        openai_key = st.text_input('OpenAI API key', type='password', key='api_key', label_visibility="collapsed")
         if openai_key:
             st.write(openai_key)
 
