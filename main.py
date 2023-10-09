@@ -88,8 +88,7 @@ st.title(':tv: Videos')
 
 
 
-cs.execute(f"SELECT * FROM  VIDEOS WHERE AUTHOR LIKE '{filter}' order by PUB_DATE_MS DESC LIMIT 3")
-snow_df = cs.fetch_pandas_all()
+
 
 query = st.text_input('Ask a question about Snowflake', '', key="vid_search")
 if query:
@@ -109,6 +108,9 @@ snowflake_channels = cs.fetch_pandas_all()
 filter = st.selectbox(
     'Select Snowflake Channel',
     (snowflake_channels))
+cs.execute(f"SELECT * FROM  VIDEOS WHERE AUTHOR LIKE '{filter}' order by PUB_DATE_MS DESC LIMIT 3")
+snow_df = cs.fetch_pandas_all()
+
 
 row1_col1, row1_col2, row1_col3= st.columns((3,3,3))
 
