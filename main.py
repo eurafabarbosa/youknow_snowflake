@@ -4,6 +4,7 @@ import streamlit as st
 import pinecone
 from streamlit_player import st_player
 from sentence_transformers import SentenceTransformer
+import openai
 
 #from snowflake.snowpark import Session
 import snowflake.connector
@@ -52,6 +53,15 @@ pinecone.init(
 )
 index = pinecone.Index(st.secrets["pinecone_index_id"])
 
+
+##########
+# OpenAI #
+##########
+openai.api_key = st.secrets["openai_api_key"]
+# get API key from top-right dropdown on OpenAI website
+openai.Engine.list()  # check we have authenticated
+
+
 #############
 # Embedding #
 #############
@@ -79,7 +89,7 @@ with st.sidebar:
 
 
 
-# page
+# PAGE
 
 st.title("YouKnow_Snow")
 st.header("The place to answer all your Snowflake Questions :snowflake:")
@@ -89,6 +99,27 @@ query = st.text_input('Ask a question about Snowflake', '', key="vid_search")
 if query:
     xq = model.encode(query).tolist()
     response = index.query(xq, top_k=4, include_metadata=True)
+    context = response['matches'][0]['metadata']['text']+response['matches'][1]['metadata']['text']+response['matches'][2]['metadata']['text']+response['matches'][3]['metadata']['text']
+    prompt = f"Q: Answer the following question {query} in the third person form, limit your answer to two sentences and base your answer on the following context: {context} Answer:"
+    with st.spinner('Thinking...'):
+            res = openai.Completion.create(
+                engine='text-davinci-003',
+                prompt=prompt,
+                temperature=0,
+                max_tokens=400,
+                top_p=1,
+                frequency_penalty=0,
+                presence_penalty=0,
+                stop=None
+            )
+            st.success('Here is your answer!')
+            print(res['choices'][0]['text'].strip())
+            t = st.empty()
+            #for i in range(len(res['choices'][0]['text'].strip()) + 1):
+            #t.markdown("## %s..." % output[0:i])
+                #t.markdown(res['choices'][0]['text'].strip()[0:i])
+                #time.sleep(0.01)
+    
     start = response['matches'][0]['metadata']['start']
     url = response['matches'][0]['metadata']['title']+'&t='+str(start)+'s'
     st_player(url, key="question_player")
