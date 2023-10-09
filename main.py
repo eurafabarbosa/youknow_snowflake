@@ -116,7 +116,7 @@ if query:
     #st.write(res['choices'][0]['text'].strip())
     t = st.empty()
     for i in range(len(res['choices'][0]['text'].strip()) + 1):
-        t.markdown("## %s..." % len(res['choices'][0]['text'].strip()[0:i])
+        t.markdown("## %s..." % res['choices'][0]['text'].strip()[0:i])
         t.markdown(res['choices'][0]['text'].strip()[0:i])
         time.sleep(0.01)
     
