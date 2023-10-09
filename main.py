@@ -42,8 +42,6 @@ def on_api_key_change():
 	ss['debug']['storage.class'] = ss['storage'].__class__.__name__
 
 
-if 'user' not in ss and ss['community_user']:
-	on_api_key_change() # use community key
 
 # Create a Snowflake connection function
 conn = snowflake.connector.connect(
