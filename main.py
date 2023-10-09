@@ -62,6 +62,25 @@ index = pinecone.Index(st.secrets["pinecone_index_id"])
 #model = SentenceTransformer("multi-qa-mpnet-base-dot-v1")
 
 
+# HANDLERS
+
+def on_api_key_change():
+	api_key = ss.get('api_key') or os.getenv('OPENAI_KEY')
+	model.use_key(api_key) # TODO: empty api_key
+	#
+	if 'data_dict' not in ss: ss['data_dict'] = {} # used only with DictStorage
+	ss['storage'] = storage.get_storage(api_key, data_dict=ss['data_dict'])
+	ss['cache'] = cache.get_cache()
+	ss['user'] = ss['storage'].folder # TODO: refactor user 'calculation' from get_storage
+	model.set_user(ss['user'])
+	ss['feedback'] = feedback.get_feedback_adapter(ss['user'])
+	ss['feedback_score'] = ss['feedback'].get_score()
+	#
+	ss['debug']['storage.folder'] = ss['storage'].folder
+	ss['debug']['storage.class'] = ss['storage'].__class__.__name__
+
+
+
 cs = conn.cursor()
 
 
@@ -82,7 +101,7 @@ with st.sidebar:
     else:
         #st.write("You Need to wait a little bit longer for this feature. It will be available in the upcoming release.")
         st.write('## 1. Enter your OpenAI API key')
-        openai_api_key = st.text_input('OpenAI API key', type='password', key='api_key', on_change=on_api_key_change, label_visibility="collapsed")
+        st.text_input('OpenAI API key', type='password', key='api_key', on_change=on_api_key_change, label_visibility="collapsed")
         # get API key from top-right dropdown on OpenAI website
         #openai.Engine.list()  # check we have authenticated
 
