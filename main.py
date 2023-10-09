@@ -74,7 +74,7 @@ with st.sidebar:
     configuration = st.radio(
     "Do you want Co-pilot to help you answer your questions in more detail?",
     ["***No***", "***Yes***"],
-    captions = ["Semantic Search.", "Co-pilot response"])
+    captions = ["Semantic Search", "Co-pilot response"])
 
     if configuration == '***No***':
         pass
