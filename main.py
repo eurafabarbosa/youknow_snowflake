@@ -91,7 +91,7 @@ rowa_cola, rowa_colb, rowa_colc = st.columns((3,3,3))
 query = st.text_input('Ask a question about Snowflake', '', key="vid_search")
 if query:
     xq = model.encode(query).tolist()
-    response = index.query(xq, top_k=3, include_metadata=True)
+    response = index.query(xq, top_k=4, include_metadata=True)
     start = response['matches'][0]['metadata']['start']
     url = response['matches'][0]['metadata']['title']+'&t='+str(start)+'s'
     st_player(url, key="question_player")
