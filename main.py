@@ -143,7 +143,7 @@ else:
             for i in range(len(res['choices'][0]['text'].strip()) + 1):
                 t.markdown("## %s..." % res['choices'][0]['text'].strip()[0:i])
                 t.markdown(res['choices'][0]['text'].strip()[0:i])
-                time.sleep(0.2)
+                time.sleep(0.05)
     
             start = response['matches'][0]['metadata']['start']
             url = response['matches'][0]['metadata']['title']+'&t='+str(start)+'s'
