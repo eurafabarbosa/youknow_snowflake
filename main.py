@@ -83,8 +83,8 @@ with st.sidebar:
         #st.write("You Need to wait a little bit longer for this feature. It will be available in the upcoming release.")
         st.write('## 1. Enter your OpenAI API key')
         openai_key = st.text_input('OpenAI API key', type='password', key='api_key', on_change=on_api_key_change, label_visibility="collapsed")
-        # get API key from top-right dropdown on OpenAI website
-        #openai.Engine.list()  # check we have authenticated
+        if openai_key:
+            st.write(openai_key)
 
 
 
