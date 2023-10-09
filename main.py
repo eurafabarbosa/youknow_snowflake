@@ -37,10 +37,10 @@ conn = snowflake.connector.connect(
     )
 
 @st.cache_resource
-def load_embedding_model():
+def load_models():
     model = SentenceTransformer("multi-qa-mpnet-base-dot-v1")
     return model
-model = load_embedding_model()
+model = load_models()
      
 
 ############
@@ -89,7 +89,6 @@ snow_df = cs.fetch_pandas_all()
 query = st.text_input('Ask a question about Snowflake', '', key="vid_search")
 if query:
     xq = model.encode(query).tolist()
-    xq = None
     response = index.query(xq, top_k=3, include_metadata=True)
     start = response['matches'][0]['metadata']['start']
     url = response['matches'][0]['metadata']['title']+'&t='+str(start)+'s'
