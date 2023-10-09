@@ -63,9 +63,6 @@ cs = conn.cursor()
 
 
 # LAYOUT
-rowa_cola, row1_colb, row1_colc = st.columns((3,3,3))
-row1_col1, row1_col2, row1_col3= st.columns((3,3,3))
-
 
 # sidebar
 with st.sidebar:
@@ -88,6 +85,9 @@ st.title("YouKnow_Snow")
 st.header("The place to answer all your Snowflake Questions :snowflake:")
 
 st.title(':tv: Videos')
+
+rowa_cola, row1_colb, row1_colc = st.columns((3,3,3))
+
 query = st.text_input('Ask a question about Snowflake', '', key="vid_search")
 if query:
     xq = model.encode(query).tolist()
@@ -122,6 +122,7 @@ filter = st.selectbox(
 cs.execute(f"SELECT * FROM  VIDEOS WHERE AUTHOR LIKE '{filter}' order by PUB_DATE_MS DESC LIMIT 3")
 snow_df = cs.fetch_pandas_all()
 
+row1_col1, row1_col2, row1_col3= st.columns((3,3,3))
 
 with row1_col1:
     st_player(snow_df.VID_URL.iloc[0], key="col1a_player")
