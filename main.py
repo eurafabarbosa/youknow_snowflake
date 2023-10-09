@@ -67,10 +67,15 @@ cs = conn.cursor()
 # sidebar
 with st.sidebar:
     st.title('Settings')
-    st.selectbox(
-        'Do you want Co-pilot to help you answer your questions in more detail?',
-        ('No', 'Yes')
-    )
+    configuration = st.radio(
+    "Do you want Co-pilot to help you answer your questions in more detail?",
+    ["***No***", "***Yes***"],
+    captions = ["Semantic Search.", "Co-pilot response"])
+
+if configuration == '***No***':
+    st.write('You selected No.')
+else:
+    st.write("You selected Yes.")
 
 
 
