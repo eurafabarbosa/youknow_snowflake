@@ -75,7 +75,7 @@ with st.sidebar:
     if configuration == '***No***':
         st.write('You selected No.')
     else:
-        st.write("You selected Yes.")
+        st.write("You Need to wait a little bit longer for this feature. It will be available in the upcoming release.")
 
 
 
@@ -86,11 +86,7 @@ st.header("The place to answer all your Snowflake Questions :snowflake:")
 
 st.title(':tv: Videos')
 
-cs.execute("SELECT Distinct AUTHOR FROM VIDEOS WHERE AUTHOR LIKE 'Snowflake%' ")
-snowflake_channels = cs.fetch_pandas_all()
-filter = st.selectbox(
-    'Select Snowflake Channel',
-    (snowflake_channels))
+
 
 cs.execute(f"SELECT * FROM  VIDEOS WHERE AUTHOR LIKE '{filter}' order by PUB_DATE_MS DESC LIMIT 3")
 snow_df = cs.fetch_pandas_all()
@@ -107,6 +103,12 @@ if query:
 
 
 st.header('Newest Videos')
+
+cs.execute("SELECT Distinct AUTHOR FROM VIDEOS WHERE AUTHOR LIKE 'Snowflake%' ")
+snowflake_channels = cs.fetch_pandas_all()
+filter = st.selectbox(
+    'Select Snowflake Channel',
+    (snowflake_channels))
 
 row1_col1, row1_col2, row1_col3= st.columns((3,3,3))
 
