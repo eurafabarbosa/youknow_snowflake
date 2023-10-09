@@ -95,6 +95,7 @@ with st.sidebar:
 
     if configuration == '***No***':
         st.write('You selected No.')
+    
     else:
         #st.write("You Need to wait a little bit longer for this feature. It will be available in the upcoming release.")
         st.write('## 1. Enter your OpenAI API key')
@@ -112,13 +113,37 @@ st.header("The place to answer all your Snowflake Questions :snowflake:")
 
 st.title(':tv: Videos')
 query = st.text_input('Ask a question about Snowflake', '', key="vid_search")
-if query:
-    xq = model.encode(query).tolist()
-    response = index.query(xq, top_k=4, include_metadata=True)
-    context = response['matches'][0]['metadata']['text']+response['matches'][1]['metadata']['text']+response['matches'][2]['metadata']['text']+response['matches'][3]['metadata']['text']
-    prompt = f"Q: Answer the following question {query} in the third person form, limit your answer to two sentences and base your answer on the following context: {context} Answer:"
-    #with st.spinner('Thinking...'):
-    res = openai.Completion.create(
+if configuration == '***No***':
+    if query:
+        xq = model.encode(query).tolist()
+        response = index.query(xq, top_k=4, include_metadata=True)
+        start = response['matches'][0]['metadata']['start']
+        url = response['matches'][0]['metadata']['title']+'&t='+str(start)+'s'
+        st_player(url, key="question_player")
+
+        st.subheader('More relevant videos')
+        rowa_cola, rowa_colb, rowa_colc = st.columns((3,3,3))
+        with rowa_cola:
+            st_player(response['matches'][1]['metadata']['url'], key="rowa_cola_player")
+        #st.write(response['matches'][0]['metadata'], "score: ", response['matches'][0]['score'])
+            expander = st.expander(":robot_face: See summary")
+        with rowa_colb:
+            st_player(response['matches'][2]['metadata']['url'], key="rowa_colb_player")
+        #st.write(response['matches'][0]['metadata'], "score: ", response['matches'][0]['score'])
+            expander = st.expander(":robot_face: See summary")
+        with rowa_colc:
+            st_player(response['matches'][3]['metadata']['url'], key="rowa_colc_player")
+        #st.write(response['matches'][0]['metadata'], "score: ", response['matches'][0]['score'])
+            expander = st.expander(":robot_face: See summary")
+
+else:
+    if query:
+        xq = model.encode(query).tolist()
+        response = index.query(xq, top_k=4, include_metadata=True)
+        context = response['matches'][0]['metadata']['text']+response['matches'][1]['metadata']['text']+response['matches'][2]['metadata']['text']+response['matches'][3]['metadata']['text']
+        prompt = f"Q: Answer the following question {query} in the third person form, limit your answer to two sentences and base your answer on the following context: {context} Answer:"
+        #with st.spinner('Thinking...'):
+        res = openai.Completion.create(
                 engine='text-davinci-003',
                 prompt=prompt,
                 temperature=0,
@@ -128,30 +153,29 @@ if query:
                 presence_penalty=0,
                 stop=None
             )
-    st.success('Here is your answer!')
+        st.success('Here is your answer!')
     #st.write(res['choices'][0]['text'].strip())
-    t = st.empty()
-    for i in range(len(res['choices'][0]['text'].strip()) + 1):
-        t.markdown("## %s..." % res['choices'][0]['text'].strip()[0:i])
-        t.markdown(res['choices'][0]['text'].strip()[0:i])
-        time.sleep(0.01)
+        t = st.empty()
+        for i in range(len(res['choices'][0]['text'].strip()) + 1):
+            t.markdown("## %s..." % res['choices'][0]['text'].strip()[0:i])
+            t.markdown(res['choices'][0]['text'].strip()[0:i])
+            time.sleep(0.2)
     
-    start = response['matches'][0]['metadata']['start']
-    url = response['matches'][0]['metadata']['title']+'&t='+str(start)+'s'
-    st_player(url, key="question_player")
-#    st.write(url)
-#    st.write(response['matches'])
-    st.subheader('More relevant videos')
-    rowa_cola, rowa_colb, rowa_colc = st.columns((3,3,3))
-    with rowa_cola:
+        start = response['matches'][0]['metadata']['start']
+        url = response['matches'][0]['metadata']['title']+'&t='+str(start)+'s'
+        st_player(url, key="question_player")
+
+        st.subheader('More relevant videos')
+        rowa_cola, rowa_colb, rowa_colc = st.columns((3,3,3))
+        with rowa_cola:
             st_player(response['matches'][1]['metadata']['url'], key="rowa_cola_player")
         #st.write(response['matches'][0]['metadata'], "score: ", response['matches'][0]['score'])
             expander = st.expander(":robot_face: See summary")
-    with rowa_colb:
+        with rowa_colb:
             st_player(response['matches'][2]['metadata']['url'], key="rowa_colb_player")
         #st.write(response['matches'][0]['metadata'], "score: ", response['matches'][0]['score'])
             expander = st.expander(":robot_face: See summary")
-    with rowa_colc:
+        with rowa_colc:
             st_player(response['matches'][3]['metadata']['url'], key="rowa_colc_player")
         #st.write(response['matches'][0]['metadata'], "score: ", response['matches'][0]['score'])
             expander = st.expander(":robot_face: See summary")
