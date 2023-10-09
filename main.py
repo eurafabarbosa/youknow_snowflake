@@ -3,7 +3,7 @@ import numpy as np
 import streamlit as st
 import pinecone
 from streamlit_player import st_player
-#from sentence_transformers import SentenceTransformer
+from sentence_transformers import SentenceTransformer
 
 #from snowflake.snowpark import Session
 import snowflake.connector
@@ -35,6 +35,13 @@ conn = snowflake.connector.connect(
     password=st.secrets["password"],
     client_session_keep_alive=True)
 
+@st.cache_resource
+def load_embedding_model():
+    model = SentenceTransformer("multi-qa-mpnet-base-dot-v1")
+    return model
+model = load_embedding_model()
+     
+
 ############
 # Pinecone #
 ############
@@ -52,24 +59,6 @@ index = pinecone.Index(st.secrets["pinecone_index_id"])
 
 cs = conn.cursor()
 
-
-
-# HANDLERS
-
-def on_api_key_change():
-	api_key = ss.get('api_key') or os.getenv('OPENAI_KEY')
-	model.use_key(api_key) # TODO: empty api_key
-	#
-	if 'data_dict' not in ss: ss['data_dict'] = {} # used only with DictStorage
-	ss['storage'] = storage.get_storage(api_key, data_dict=ss['data_dict'])
-	ss['cache'] = cache.get_cache()
-	ss['user'] = ss['storage'].folder # TODO: refactor user 'calculation' from get_storage
-	model.set_user(ss['user'])
-	ss['feedback'] = feedback.get_feedback_adapter(ss['user'])
-	ss['feedback_score'] = ss['feedback'].get_score()
-	#
-	ss['debug']['storage.folder'] = ss['storage'].folder
-	ss['debug']['storage.class'] = ss['storage'].__class__.__name__
 
 
 # LAYOUT
@@ -99,7 +88,7 @@ snow_df = cs.fetch_pandas_all()
 
 query = st.text_input('Ask a question about Snowflake', '', key="vid_search")
 if query:
-    #xq = model.encode(query).tolist()
+    xq = model.encode(query).tolist()
     xq = None
     response = index.query(xq, top_k=3, include_metadata=True)
     start = response['matches'][0]['metadata']['start']
