@@ -66,9 +66,8 @@ index = pinecone.Index(st.secrets["pinecone_index_id"])
 
 def on_api_key_change():
 	api_key = ss.get('api_key') or os.getenv('OPENAI_KEY')
-	model.use_key(api_key) # TODO: empty api_key
-	#
-	if 'data_dict' not in ss: ss['data_dict'] = {} # used only with DictStorage
+    openai.api_key = api_key
+    if 'data_dict' not in ss: ss['data_dict'] = {} # used only with DictStorage
 	ss['storage'] = storage.get_storage(api_key, data_dict=ss['data_dict'])
 	ss['cache'] = cache.get_cache()
 	ss['user'] = ss['storage'].folder # TODO: refactor user 'calculation' from get_storage
@@ -139,7 +138,7 @@ if configuration == '***No***':
 
 else:
     if query:
-        openai.api_key = None
+        #openai.api_key = None
         xq = model.encode(query).tolist()
         response = index.query(xq, top_k=4, include_metadata=True)
         context = response['matches'][0]['metadata']['text']+response['matches'][1]['metadata']['text']+response['matches'][2]['metadata']['text']+response['matches'][3]['metadata']['text']
