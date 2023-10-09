@@ -85,9 +85,6 @@ st.title("YouKnow_Snow")
 st.header("The place to answer all your Snowflake Questions :snowflake:")
 
 st.title(':tv: Videos')
-
-rowa_cola, rowa_colb, rowa_colc = st.columns((3,3,3))
-
 query = st.text_input('Ask a question about Snowflake', '', key="vid_search")
 if query:
     xq = model.encode(query).tolist()
@@ -98,6 +95,7 @@ if query:
 #    st.write(url)
 #    st.write(response['matches'])
     st.subheader('More relevant videos')
+    rowa_cola, rowa_colb, rowa_colc = st.columns((3,3,3))
     with rowa_cola:
             st_player(response['matches'][1]['metadata']['url'], key="rowa_cola_player")
         #st.write(response['matches'][0]['metadata'], "score: ", response['matches'][0]['score'])
@@ -113,7 +111,6 @@ if query:
 
 
 st.title('Latest Snowflake Videos')
-
 cs.execute("SELECT Distinct AUTHOR FROM VIDEOS WHERE AUTHOR LIKE 'Snowflake%' ")
 snowflake_channels = cs.fetch_pandas_all()
 filter = st.selectbox(
