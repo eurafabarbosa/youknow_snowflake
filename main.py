@@ -83,8 +83,8 @@ with st.sidebar:
         #st.write("You Need to wait a little bit longer for this feature. It will be available in the upcoming release.")
         st.write('## 1. Enter your OpenAI API key')
         openai_key = st.text_input('OpenAI API key', type='password', key='api_key', label_visibility="collapsed")
-        if openai_key:
-            st.write(openai_key)
+        #if openai_key:
+        #    st.write(openai_key)
 
 
 
@@ -119,14 +119,15 @@ if configuration == '***No***':
             expander = st.expander(":robot_face: See summary")
 
 else:
-    if query:
-        st.write(openai_key)
-        xq = model.encode(query).tolist()
-        response = index.query(xq, top_k=4, include_metadata=True)
-        context = response['matches'][0]['metadata']['text']+response['matches'][1]['metadata']['text']+response['matches'][2]['metadata']['text']+response['matches'][3]['metadata']['text']
-        prompt = f"Q: Answer the following question {query} in the third person form, limit your answer to two sentences and base your answer on the following context: {context} Answer:"
+    if openai_key:
+        openai.api_key = openai_key
+        if query:
+            xq = model.encode(query).tolist()
+            response = index.query(xq, top_k=4, include_metadata=True)
+            context = response['matches'][0]['metadata']['text']+response['matches'][1]['metadata']['text']+response['matches'][2]['metadata']['text']+response['matches'][3]['metadata']['text']
+            prompt = f"Q: Answer the following question {query} in the third person form, limit your answer to two sentences and base your answer on the following context: {context} Answer:"
         #with st.spinner('Thinking...'):
-        res = openai.Completion.create(
+            res = openai.Completion.create(
                 engine='text-davinci-003',
                 prompt=prompt,
                 temperature=0,
@@ -136,17 +137,17 @@ else:
                 presence_penalty=0,
                 stop=None
             )
-        st.success('Here is your answer!')
+            st.success('Here is your answer!')
     #st.write(res['choices'][0]['text'].strip())
-        t = st.empty()
-        for i in range(len(res['choices'][0]['text'].strip()) + 1):
-            t.markdown("## %s..." % res['choices'][0]['text'].strip()[0:i])
-            t.markdown(res['choices'][0]['text'].strip()[0:i])
-            time.sleep(0.2)
+            t = st.empty()
+            for i in range(len(res['choices'][0]['text'].strip()) + 1):
+                t.markdown("## %s..." % res['choices'][0]['text'].strip()[0:i])
+                t.markdown(res['choices'][0]['text'].strip()[0:i])
+                time.sleep(0.2)
     
-        start = response['matches'][0]['metadata']['start']
-        url = response['matches'][0]['metadata']['title']+'&t='+str(start)+'s'
-        st_player(url, key="question_player")
+            start = response['matches'][0]['metadata']['start']
+            url = response['matches'][0]['metadata']['title']+'&t='+str(start)+'s'
+            st_player(url, key="question_player")
 
         st.subheader('More relevant videos')
         rowa_cola, rowa_colb, rowa_colc = st.columns((3,3,3))
