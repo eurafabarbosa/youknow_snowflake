@@ -220,4 +220,3 @@ with row2_col3:
     expander.write(
         snow_df.SUMMARY.iloc[5]
     )
-
