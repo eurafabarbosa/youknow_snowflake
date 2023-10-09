@@ -69,10 +69,10 @@ with st.sidebar:
     st.title('Settings')
     configuration = st.radio(
     "Do you want Co-pilot to help you answer your questions in more detail?",
-    ["***No***", "***Yes***"],
+    ["***No***", ":robot_face: ***Yes***"],
     captions = ["Semantic Search.", "Co-pilot response"])
 
-if configuration == '***No***':
+if configuration == 'No':
     st.write('You selected No.')
 else:
     st.write("You selected Yes.")
