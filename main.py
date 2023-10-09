@@ -33,7 +33,8 @@ conn = snowflake.connector.connect(
     schema=st.secrets["schema"],
     user=st.secrets["user"],
     password=st.secrets["password"],
-    client_session_keep_alive=True)
+    #client_session_keep_alive=True
+    )
 
 @st.cache_resource
 def load_embedding_model():
