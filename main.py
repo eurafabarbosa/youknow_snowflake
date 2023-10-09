@@ -149,20 +149,20 @@ else:
             url = response['matches'][0]['metadata']['title']+'&t='+str(start)+'s'
             st_player(url, key="question_player")
 
-        st.subheader('More relevant videos')
-        rowa_cola, rowa_colb, rowa_colc = st.columns((3,3,3))
-        with rowa_cola:
-            st_player(response['matches'][1]['metadata']['url'], key="rowa_cola_player")
+            st.subheader('More relevant videos')
+            rowa_cola, rowa_colb, rowa_colc = st.columns((3,3,3))
+            with rowa_cola:
+                st_player(response['matches'][1]['metadata']['url'], key="rowa_cola_player")
         #st.write(response['matches'][0]['metadata'], "score: ", response['matches'][0]['score'])
-            expander = st.expander(":robot_face: See summary")
-        with rowa_colb:
-            st_player(response['matches'][2]['metadata']['url'], key="rowa_colb_player")
+                expander = st.expander(":robot_face: See summary")
+            with rowa_colb:
+                st_player(response['matches'][2]['metadata']['url'], key="rowa_colb_player")
         #st.write(response['matches'][0]['metadata'], "score: ", response['matches'][0]['score'])
-            expander = st.expander(":robot_face: See summary")
-        with rowa_colc:
-            st_player(response['matches'][3]['metadata']['url'], key="rowa_colc_player")
+                expander = st.expander(":robot_face: See summary")
+            with rowa_colc:
+                st_player(response['matches'][3]['metadata']['url'], key="rowa_colc_player")
         #st.write(response['matches'][0]['metadata'], "score: ", response['matches'][0]['score'])
-            expander = st.expander(":robot_face: See summary")
+                expander = st.expander(":robot_face: See summary")
 
 
 st.title('Latest Snowflake Videos')
