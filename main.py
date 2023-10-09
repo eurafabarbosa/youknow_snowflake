@@ -66,7 +66,11 @@ cs = conn.cursor()
 
 # sidebar
 with st.sidebar:
-    st.write('##')
+    st.title('Settings')
+    st.selectbox(
+        'Do you want Co-pilot to help you answer your questions in more detail?',
+        ('No', 'Yes')
+    )
 
 
 
