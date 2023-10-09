@@ -100,21 +100,22 @@ if query:
     xq = model.encode(query).tolist()
     response = index.query(xq, top_k=4, include_metadata=True)
     context = response['matches'][0]['metadata']['text']+response['matches'][1]['metadata']['text']+response['matches'][2]['metadata']['text']+response['matches'][3]['metadata']['text']
+    st.write(context)
     prompt = f"Q: Answer the following question {query} in the third person form, limit your answer to two sentences and base your answer on the following context: {context} Answer:"
-    with st.spinner('Thinking...'):
-            res = openai.Completion.create(
-                engine='text-davinci-003',
-                prompt=prompt,
-                temperature=0,
-                max_tokens=400,
-                top_p=1,
-                frequency_penalty=0,
-                presence_penalty=0,
-                stop=None
-            )
-            st.success('Here is your answer!')
-            print(res['choices'][0]['text'].strip())
-            t = st.empty()
+    #with st.spinner('Thinking...'):
+   #res = openai.Completion.create(
+                #engine='text-davinci-003',
+                #prompt=prompt,
+                #temperature=0,
+                #max_tokens=400,
+                #top_p=1,
+                #frequency_penalty=0,
+                #presence_penalty=0,
+                #stop=None
+            #)
+            #st.success('Here is your answer!')
+    #res['choices'][0]['text'].strip()
+            #t = st.empty()
             #for i in range(len(res['choices'][0]['text'].strip()) + 1):
             #t.markdown("## %s..." % output[0:i])
                 #t.markdown(res['choices'][0]['text'].strip()[0:i])
