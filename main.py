@@ -72,7 +72,7 @@ with st.sidebar:
     ["***No***", "***Yes***"],
     captions = ["Semantic Search.", "Co-pilot response"])
 
-    if configuration == 'No':
+    if configuration == '***No***':
         st.write('You selected No.')
     else:
         st.write("You selected Yes.")
