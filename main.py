@@ -112,7 +112,7 @@ if query:
             expander = st.expander(":robot_face: See summary")
 
 
-st.Title('Latest Snowflake Videos')
+st.title('Latest Snowflake Videos')
 
 cs.execute("SELECT Distinct AUTHOR FROM VIDEOS WHERE AUTHOR LIKE 'Snowflake%' ")
 snowflake_channels = cs.fetch_pandas_all()
