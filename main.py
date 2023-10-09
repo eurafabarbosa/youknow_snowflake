@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import streamlit as st
 import pinecone
+import time
 from streamlit_player import st_player
 from sentence_transformers import SentenceTransformer
 import openai
