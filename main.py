@@ -86,7 +86,7 @@ st.header("The place to answer all your Snowflake Questions :snowflake:")
 
 st.title(':tv: Videos')
 
-rowa_cola, row1_colb, row1_colc = st.columns((3,3,3))
+rowa_cola, rowa_colb, rowa_colc = st.columns((3,3,3))
 
 query = st.text_input('Ask a question about Snowflake', '', key="vid_search")
 if query:
