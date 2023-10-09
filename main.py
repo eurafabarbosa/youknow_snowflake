@@ -83,7 +83,6 @@ with st.sidebar:
         #st.write("You Need to wait a little bit longer for this feature. It will be available in the upcoming release.")
         st.write('## 1. Enter your OpenAI API key')
         openai_api_key = st.text_input('OpenAI API key', type='password', key='api_key', on_change=on_api_key_change, label_visibility="collapsed")
-        openai.api_key = openai_api_key
         # get API key from top-right dropdown on OpenAI website
         #openai.Engine.list()  # check we have authenticated
 
@@ -121,6 +120,7 @@ if configuration == '***No***':
 
 else:
     if query:
+        openai.api_key = None
         xq = model.encode(query).tolist()
         response = index.query(xq, top_k=4, include_metadata=True)
         context = response['matches'][0]['metadata']['text']+response['matches'][1]['metadata']['text']+response['matches'][2]['metadata']['text']+response['matches'][3]['metadata']['text']
