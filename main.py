@@ -26,6 +26,25 @@ st.set_page_config(
 ss = st.session_state
 
 
+def on_api_key_change():
+	api_key = ss.get('api_key') or os.getenv('OPENAI_KEY')
+	model.use_key(api_key) # TODO: empty api_key
+	#
+	if 'data_dict' not in ss: ss['data_dict'] = {} # used only with DictStorage
+	ss['storage'] = storage.get_storage(api_key, data_dict=ss['data_dict'])
+	ss['cache'] = cache.get_cache()
+	ss['user'] = ss['storage'].folder # TODO: refactor user 'calculation' from get_storage
+	model.set_user(ss['user'])
+	ss['feedback'] = feedback.get_feedback_adapter(ss['user'])
+	ss['feedback_score'] = ss['feedback'].get_score()
+	#
+	ss['debug']['storage.folder'] = ss['storage'].folder
+	ss['debug']['storage.class'] = ss['storage'].__class__.__name__
+
+
+if 'user' not in ss and ss['community_user']:
+	on_api_key_change() # use community key
+
 # Create a Snowflake connection function
 conn = snowflake.connector.connect(
     account=st.secrets["account"],
@@ -86,7 +105,9 @@ with st.sidebar:
     if configuration == '***No***':
         st.write('You selected No.')
     else:
-        st.write("You Need to wait a little bit longer for this feature. It will be available in the upcoming release.")
+        #st.write("You Need to wait a little bit longer for this feature. It will be available in the upcoming release.")
+        st.write('## 1. Enter your OpenAI API key')
+        st.text_input('OpenAI API key', type='password', key='api_key', on_change=on_api_key_change, label_visibility="collapsed")
 
 
 
