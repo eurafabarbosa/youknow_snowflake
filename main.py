@@ -125,7 +125,7 @@ else:
             xq = model.encode(query).tolist()
             response = index.query(xq, top_k=4, include_metadata=True)
             context = response['matches'][0]['metadata']['text']+response['matches'][1]['metadata']['text']+response['matches'][2]['metadata']['text']+response['matches'][3]['metadata']['text']
-            prompt = f"Q: Answer the following question {query} in the third person form, limit your answer to two sentences and base your answer on the following context: {context} Answer:"
+            prompt = f"Q: Answer the following question {query} in the third person form, limit your answer to two sentences or as stated otherwise in the question and base your answer on the following context: {context} Answer:"
             with st.spinner('Thinking...'):
                 res = openai.Completion.create(
                     engine='text-davinci-003',
