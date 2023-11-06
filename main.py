@@ -9,7 +9,7 @@ import openai
 
 #from snowflake.snowpark import Session
 import snowflake.connector
-#
+
 
 st.set_page_config(
     page_title='YouKnow_X',
