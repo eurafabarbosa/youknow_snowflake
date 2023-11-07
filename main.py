@@ -91,7 +91,7 @@ with st.sidebar:
 # PAGE
 
 st.title(" :snowflake: You Know Snow :snowflake:")
-st.header("The place to answer all your :snowflake: Questions")
+st.header("The place to answer all your Snowflake Questions")
 
 st.title(':tv: Videos')
 query = st.text_input('Ask a question about Snowflake', '', key="vid_search")
