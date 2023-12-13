@@ -9,3 +9,4 @@ snowflake-connector-python[pandas]
 streamlit_player
 sentence_transformers
 openai
+st-paywall
