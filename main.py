@@ -38,11 +38,10 @@ db.enable_load_extension(True)
 sqlite_vec.load(db)
 db.enable_load_extension(False)
 
-with db:
-    result = db.execute("SELECT id, text FROM youtube LIMIT 10").fetchall()
-result
 
 st.header('simple test')
+with db:
+    result = db.execute("SELECT id, text FROM youtube LIMIT 10").fetchall()
 st.write(result)
 
 
