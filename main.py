@@ -65,3 +65,14 @@ vec_result = db.execute(
 ).fetchall()
 
 st.write(vec_result)
+
+
+vec_result2 = db.execute(
+    """
+      SELECT
+        *
+      FROM youtube_vec
+      LIMIT 2
+    """).fetchall()
+
+st.write(vec_result2)
