@@ -10,6 +10,9 @@ import sqlite_vec
 from typing import List
 import struct
 
+from sentence_transformers import SentenceTransformer
+
+embedding_model=SentenceTransformer("all-MiniLM-L6-v2")
 
 st.set_page_config(
     page_title='YouKnowSnow',
@@ -39,5 +42,27 @@ with db:
     result = db.execute("SELECT id, text FROM youtube LIMIT 10").fetchall()
 result
 
-st.header('testing')
+st.header('simple test')
 st.write(result)
+
+
+st.header('vector search test')
+
+query=embedding_model.encode((["Since deploying the snowflake platform, how much has the performance improved"]))[0]
+
+vec_result = db.execute(
+    """
+      SELECT
+        youtube.id,
+        youtube_vec.id,
+        youtube.text
+      FROM youtube_vec
+      left join youtube on youtube.id = youtube_vec.id
+      WHERE embeddings MATCH ?
+      and k = 5
+      ORDER BY distance
+    """,
+    [sqlite_vec.serialize_float32(query)],
+).fetchall()
+
+st.write(vec_result)
