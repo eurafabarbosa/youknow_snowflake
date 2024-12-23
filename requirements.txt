@@ -3,3 +3,4 @@ pandas
 streamlit
 pysqlite3-binary
 sqlite_vec
+sentence-transformers
