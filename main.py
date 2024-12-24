@@ -328,7 +328,7 @@ def main():
         # Display assistant response in chat message container
         with st.chat_message("assistant"):
           with st.container(height=300):
-            response = st.write(final_answer, results)
+            response = st.write(final_answer, result)
             #st.session_state.messages.append({"role": "assistant", "content": response})
 
 
