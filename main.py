@@ -307,7 +307,7 @@ def main():
         
         context = " "
         for text in result:
-          context += text
+          context += text[0]
         final_answer = qa_model(question = prompt, context = context)
         # Add user message to chat history
         st.session_state.messages.append({"role": "user", "content": prompt})
