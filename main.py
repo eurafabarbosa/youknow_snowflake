@@ -84,7 +84,7 @@ embedding_model = get_embedding_model()
 
 
 
-
+'''
 st.header('simple test')
 with db:
     result = db.execute("SELECT id, text FROM youtube LIMIT 10").fetchall()
@@ -122,3 +122,4 @@ vec_result2 = db.execute(
     """).fetchall()
 
 st.write(vec_result2)
+'''
