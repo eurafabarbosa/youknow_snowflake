@@ -39,7 +39,7 @@ def serialize_f32(vector: List[float]) -> bytes:
 
 @st.cache_resource
 def get_db():
-    db = sqlite3.connect("Ressources/vec.db")
+    db = sqlite3.connect("Ressources/vec.db", check_same_thread=False)
     db.enable_load_extension(True)
     sqlite_vec.load(db)
     db.enable_load_extension(False)
