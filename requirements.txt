@@ -4,3 +4,4 @@ streamlit
 pysqlite3-binary
 sqlite_vec
 sentence-transformers
+streamlit-extras
