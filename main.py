@@ -18,7 +18,7 @@ from sentence_transformers import SentenceTransformer
 
 
 st.set_page_config(
-    page_title='YouKnowSnow',
+    page_title='YouKnowSnowflake',
     page_icon=':arrow_forward:',
     layout='wide',
     initial_sidebar_state="collapsed",
@@ -316,7 +316,7 @@ def main():
 
 
     with st.sidebar:
-      st.header("This is YouKnow AI! ✨")
+      st.header("This is YouKnow Snowflake! ✨")
       with st.expander(":information_source: About the app"):
         st.info(
             "- Version 0.1.  \n"
