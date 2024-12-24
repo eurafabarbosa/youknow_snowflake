@@ -34,7 +34,7 @@ def serialize_f32(vector: List[float]) -> bytes:
     return struct.pack("%sf" % len(vector), *vector)
 
 
-@st.cache_data
+@st.cache_resource
 def get_db():
     db = sqlite3.connect("Ressources/vec.db")
     db.enable_load_extension(True)
