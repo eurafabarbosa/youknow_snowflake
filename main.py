@@ -308,8 +308,7 @@ def main():
         ).fetchall()
         
         context = " "
-        for res in results:
-          text = res.page_content
+        for text in results:
           context += text
         final_answer = qa_model(question = prompt, context = context)
         # Add user message to chat history
