@@ -245,8 +245,6 @@ def main():
 
     question = random.choice(example_questions)
 
-
-
     if "messages" not in st.session_state:
         st.session_state.messages = []
 
@@ -275,7 +273,7 @@ def main():
       # Add assistant response to chat history
       #st.session_state.messages.append({"role": "assistant", "content": response})
     
-    if prompt := st.chat_input("Ask me anything about AI & ML"):
+    if prompt := st.chat_input("Ask me anything about Snowflake features or updates!"):
       #with st.container(height=300):
       #if prompt := st.chat_input("Ask me anything"):
         # Initialize chat history
@@ -291,11 +289,23 @@ def main():
 
       # Accept user input
       if prompt:
-        results = index.similarity_search(
-          prompt,
-            k=2,
-            #filter={"title": f"{title}"},
-          )
+        query=embedding_model.encode(([prompt]))[0]
+        
+        result = db.execute(
+            """
+            SELECT
+                youtube.id,
+                youtube_vec.id,
+                youtube.text
+            FROM youtube_vec
+            left join youtube on youtube.id = youtube_vec.id
+            WHERE embeddings MATCH ?
+            and k = 2
+            ORDER BY distance
+            """,
+            [sqlite_vec.serialize_float32(query)],
+        ).fetchall()
+        
         context = " "
         for res in results:
           text = res.page_content
