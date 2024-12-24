@@ -258,29 +258,38 @@ def main():
         st.session_state.messages = []
 
     if left.button(f"{'✨ '+question+ ' ✨'}", use_container_width=True):
-      results = index.similarity_search(
-        question,
-          k=2,
-          #filter={"title": f"{title}"},
-        )
-      context = " "
-      for res in results:
-        text = res.page_content
-        context += text
-      final_answer = qa_model(question = question, context = context)
-      # Add user message to chat history
-      st.session_state.messages.append({"role": "user", "content": question})
-      # Add assistant response to chat history
-      st.session_state.messages.append({"role": "assistant", "content": final_answer['answer']})
-      # Display user message in chat message container
-      with st.chat_message("user"):
-        st.markdown(question)
-      # Display assistant response in chat message container
-      with st.chat_message("assistant"):
-        with st.container(height=300):
-          response = st.write(final_answer, results)
-      # Add assistant response to chat history
-      #st.session_state.messages.append({"role": "assistant", "content": response})
+        db = get_db()
+        query=embedding_model.encode(([question]))[0]
+        result = db.execute(
+            """
+            SELECT
+                youtube.text
+            FROM youtube_vec
+            left join youtube on youtube.id = youtube_vec.id
+            WHERE embeddings MATCH ?
+            and k = 2
+            ORDER BY distance
+            """,
+            [sqlite_vec.serialize_float32(question)],
+        ).fetchall()
+
+        context = " "
+        for res in result:
+            context += text[0]
+        final_answer = qa_model(question = question, context = context)
+        # Add user message to chat history
+        st.session_state.messages.append({"role": "user", "content": question})
+        # Add assistant response to chat history
+        st.session_state.messages.append({"role": "assistant", "content": final_answer['answer']})
+        # Display user message in chat message container
+        with st.chat_message("user"):
+            st.markdown(question)
+        # Display assistant response in chat message container
+        with st.chat_message("assistant"):
+            with st.container(height=300):
+                response = st.write(final_answer, result)
+        # Add assistant response to chat history
+        #st.session_state.messages.append({"role": "assistant", "content": response})
     
     if prompt := st.chat_input("Ask me anything about Snowflake features or updates!"):
       #with st.container(height=300):
