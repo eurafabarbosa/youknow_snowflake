@@ -94,6 +94,7 @@ def main():
         #layout="wide",
         #initial_sidebar_state="collapsed"
     #)
+    db = get_db()
     st.markdown('<div class="main-content">', unsafe_allow_html=True)
     
     particles_js = """<!DOCTYPE html>
@@ -258,7 +259,6 @@ def main():
         st.session_state.messages = []
 
     if left.button(f"{'✨ '+question+ ' ✨'}", use_container_width=True):
-        db = get_db()
         query=embedding_model.encode(([question]))[0]
         result = db.execute(
             """
@@ -307,7 +307,6 @@ def main():
 
       # Accept user input
       if prompt:
-        db = get_db()
         query=embedding_model.encode(([prompt]))[0]
         
         result = db.execute(
