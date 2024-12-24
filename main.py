@@ -44,7 +44,7 @@ def get_db():
     sqlite_vec.load(db)
     db.enable_load_extension(False)
     return db
-index = get_db()
+db = get_db()
 
 
 
