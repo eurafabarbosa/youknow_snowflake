@@ -18,6 +18,7 @@ st.set_page_config(
     page_title='YouKnowSnow',
     page_icon=':arrow_forward:',
     layout='wide',
+    initial_sidebar_state="collapsed",
     menu_items={
     'Get Help': 'https://www.google.com/',
     'Report a bug': 'https://www.google.com/',
@@ -33,10 +34,56 @@ def serialize_f32(vector: List[float]) -> bytes:
     return struct.pack("%sf" % len(vector), *vector)
 
 
-db = sqlite3.connect("Ressources/vec.db")
-db.enable_load_extension(True)
-sqlite_vec.load(db)
-db.enable_load_extension(False)
+@st.cache_data
+def get_db():
+    db = sqlite3.connect("Ressources/vec.db")
+    db.enable_load_extension(True)
+    sqlite_vec.load(db)
+    db.enable_load_extension(False)
+    return index
+index = get_db()
+
+
+
+example_questions = [
+    "What is artificial intelligence?",
+    "How does a transformer work?",
+    "When will we reach general artificial intelligence?",
+]
+
+@st.cache_resource
+def get_embedding_model():
+  # Get embedding model
+  hf_embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+  return hf_embeddings
+embeddings = get_embedding_model()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 st.header('simple test')
