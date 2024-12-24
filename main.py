@@ -7,10 +7,12 @@ import numpy as np
 import random
 import streamlit as st
 import streamlit.components.v1 as components
+from streamlit_extras.buy_me_a_coffee import button
 import sqlite3
 import sqlite_vec
 from typing import List
 import struct
+
 
 from sentence_transformers import SentenceTransformer
 
