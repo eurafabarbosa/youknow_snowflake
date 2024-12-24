@@ -228,7 +228,140 @@ def main():
 </html>
 """
 
+    if "show_animation" not in st.session_state:
+      st.session_state.show_animation = True
 
+    if st.session_state.show_animation:
+      components.html(particles_js, height=400, width=1300, scrolling=True)
+    
+
+    intro()
+
+    left, middle, right = st.columns(3)
+
+    question = random.choice(example_questions)
+
+
+
+    if "messages" not in st.session_state:
+        st.session_state.messages = []
+
+    if left.button(f"{'✨ '+question+ ' ✨'}", use_container_width=True):
+      results = index.similarity_search(
+        question,
+          k=2,
+          #filter={"title": f"{title}"},
+        )
+      context = " "
+      for res in results:
+        text = res.page_content
+        context += text
+      final_answer = qa_model(question = question, context = context)
+      # Add user message to chat history
+      st.session_state.messages.append({"role": "user", "content": question})
+      # Add assistant response to chat history
+      st.session_state.messages.append({"role": "assistant", "content": final_answer['answer']})
+      # Display user message in chat message container
+      with st.chat_message("user"):
+        st.markdown(question)
+      # Display assistant response in chat message container
+      with st.chat_message("assistant"):
+        with st.container(height=300):
+          response = st.write(final_answer, results)
+      # Add assistant response to chat history
+      #st.session_state.messages.append({"role": "assistant", "content": response})
+    
+    if prompt := st.chat_input("Ask me anything about AI & ML"):
+      #with st.container(height=300):
+      #if prompt := st.chat_input("Ask me anything"):
+        # Initialize chat history
+
+      # Display chat messages from history on app rerun
+      for message in st.session_state.messages:
+        with st.chat_message(message["role"]):
+          #with st.container(height=300):
+          st.markdown(message["content"])
+        
+          #st.session_state.show_animation = False
+          #st.session_state.messages.append({"role": "user", "content": prompt})
+
+      # Accept user input
+      if prompt:
+        results = index.similarity_search(
+          prompt,
+            k=2,
+            #filter={"title": f"{title}"},
+          )
+        context = " "
+        for res in results:
+          text = res.page_content
+          context += text
+        final_answer = qa_model(question = prompt, context = context)
+        # Add user message to chat history
+        st.session_state.messages.append({"role": "user", "content": prompt})
+        # Add assistant response to chat history
+        st.session_state.messages.append({"role": "assistant", "content": final_answer['answer']})
+        # Display user message in chat message container
+        with st.chat_message("user"):
+          st.markdown(prompt)
+        # Display assistant response in chat message container
+        with st.chat_message("assistant"):
+          with st.container(height=300):
+            response = st.write(final_answer, results)
+            #st.session_state.messages.append({"role": "assistant", "content": response})
+
+
+    with st.sidebar:
+      st.header("This is YouKnow AI! ✨")
+      with st.expander(":information_source: About the app"):
+        st.info(
+            "- Version 0.1.  \n"
+            "- Roadmap: Colbert Retriever  \n"
+            "- Roadmap: LLM service  \n"
+        )
+      #if st.button("Watch the latest on Artificial Intelligence"):
+      #  show_video("")
+
+      with st.expander(":gear: System Prompt"):
+        st.success(
+            "- Blablabal"
+        )
+        text_area_container = st.empty()
+        sys_prompt = text_area_container.text_area("Instruct your AI", key="text")
+        sys_prompt_btn = st.button("Customize your AI", on_click=update_sys_prompt)
+        if sys_prompt_btn:
+           st.success(
+            f"Updated system prompt: {sys_prompt}"
+        )
+      
+      with st.expander(":brain: Session History"):
+        with st.container(height=300):
+          if prompt or question:
+            history = st.session_state.messages
+            st.write(history)
+          #if prompt:
+            #st.write(results[0].metadata)
+            #st.write(results[0].page_content)
+      
+      st.write("create video page")
+
+      button(username="baurpasj", floating=False, width=221)
+
+      with st.expander(":studio_microphone: Podcast Sources"):
+        st.info(
+            "- Machine Learning Street Talk  \n"
+            "- TBA.  \n"
+        )
+      with st.expander(":tv: Video Sources"):
+        st.info(
+            "- Youtube  \n"
+            "- TBA.  \n"
+        )
+      with st.expander(":newspaper: Text Sources"):
+        st.info(
+            "- xxx  \n"
+            "- xxx  \n"
+        )
 
 
 
