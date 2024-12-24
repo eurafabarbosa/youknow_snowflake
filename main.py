@@ -46,6 +46,14 @@ def get_db():
     return db
 #db = get_db()
 
+@st.cache_resource
+def get_qa_model():
+  # Get embedding model
+  qa_model = pipeline("question-answering")#, model="meta-llama/Llama-3.2-1B")
+  #qa_model = pipeline("question-answering", model='distilbert/distilbert-base-cased-distilled-squad')#, model="distilbert/distilbert-base-cased-distilled-squad")
+  return qa_model
+qa_model = get_qa_model()
+
 
 
 example_questions = [
