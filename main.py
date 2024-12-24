@@ -12,7 +12,6 @@ import struct
 
 from sentence_transformers import SentenceTransformer
 
-embedding_model=SentenceTransformer("all-MiniLM-L6-v2")
 
 st.set_page_config(
     page_title='YouKnowSnow',
@@ -54,9 +53,9 @@ example_questions = [
 @st.cache_resource
 def get_embedding_model():
   # Get embedding model
-  hf_embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
-  return hf_embeddings
-embeddings = get_embedding_model()
+  embedding_model=SentenceTransformer("all-MiniLM-L6-v2")
+  return embedding_model
+embedding_model = get_embedding_model()
 
 
 
