@@ -40,7 +40,7 @@ def get_db():
     db.enable_load_extension(True)
     sqlite_vec.load(db)
     db.enable_load_extension(False)
-    return index
+    return db
 index = get_db()
 
 
