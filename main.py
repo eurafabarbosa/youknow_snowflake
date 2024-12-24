@@ -289,6 +289,7 @@ def main():
 
       # Accept user input
       if prompt:
+        db = get_db()
         query=embedding_model.encode(([prompt]))[0]
         
         result = db.execute(
