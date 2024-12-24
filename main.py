@@ -13,6 +13,7 @@ import sqlite_vec
 from typing import List
 import struct
 
+from transformers import pipeline
 
 from sentence_transformers import SentenceTransformer
 
