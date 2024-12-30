@@ -53,7 +53,7 @@ def get_db():
 def get_qa_model():
   # Get embedding model
   #qa_model = pipeline("question-answering")#, model="meta-llama/Llama-3.2-1B")
-  qa_model = pipeline("question-answering", model='answerdotai/ModernBERT-base')#, model="distilbert/distilbert-base-cased-distilled-squad")
+  qa_model = pipeline("question-answering", model='BartForQuestionAnswering')#, model="distilbert/distilbert-base-cased-distilled-squad")
   return qa_model
 qa_model = get_qa_model()
 
