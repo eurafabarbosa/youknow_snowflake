@@ -16,6 +16,8 @@ import struct
 from transformers import pipeline
 
 from sentence_transformers import SentenceTransformer
+from ragatouille import RAGPretrainedModel
+
 
 
 st.set_page_config(
@@ -54,6 +56,15 @@ def get_qa_model():
   #qa_model = pipeline("question-answering", model='distilbert/distilbert-base-cased-distilled-squad')#, model="distilbert/distilbert-base-cased-distilled-squad")
   return qa_model
 qa_model = get_qa_model()
+
+
+@st.cache_resource
+def get_rerank_model():
+  # Get embedding model
+  rerank_model = RAGPretrainedModel.from_pretrained("colbert-ir/colbertv2.0")
+  #qa_model = pipeline("question-answering", model='distilbert/distilbert-base-cased-distilled-squad')#, model="distilbert/distilbert-base-cased-distilled-squad")
+  return rerank_model
+rerank_model = get_rerank_model()
 
 
 
@@ -267,7 +278,7 @@ def main():
             FROM youtube_vec
             left join youtube on youtube.id = youtube_vec.id
             WHERE embeddings MATCH ?
-            and k = 2
+            and k = 20
             ORDER BY distance
             """,
             [sqlite_vec.serialize_float32(question)],
@@ -307,6 +318,7 @@ def main():
 
       # Accept user input
       if prompt:
+        question=prompt
         query=embedding_model.encode(([prompt]))[0]
         
         result = db.execute(
@@ -316,16 +328,23 @@ def main():
             FROM youtube_vec
             left join youtube on youtube.id = youtube_vec.id
             WHERE embeddings MATCH ?
-            and k = 2
+            and k = 20
             ORDER BY distance
             """,
             [sqlite_vec.serialize_float32(query)],
         ).fetchall()
         
-        context = " "
+        #context = " "
+        #for text in result:
+        #  context += text[0]
+        #final_answer = qa_model(question = prompt, context = context)
+        context = []
         for text in result:
-          context += text[0]
-        final_answer = qa_model(question = prompt, context = context)
+            #print(text[0])
+            text = text[0]
+            context.append(text)
+        context = list(filter(None, context))
+        final_answer = rerank_model.rerank(query=question, documents=context, k=3)
         # Add user message to chat history
         st.session_state.messages.append({"role": "user", "content": prompt})
         # Add assistant response to chat history
