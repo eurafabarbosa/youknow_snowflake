@@ -344,7 +344,12 @@ def main():
             text = text[0]
             context.append(text)
         context = list(filter(None, context))
-        final_answer = rerank_model.rerank(query=question, documents=context, k=3)
+        reranked_reult = rerank_model.rerank(query=question, documents=context, k=3)
+        reranked_context=" "
+        for context in reranked_reult:
+        #print(context['content'])
+            reranked_context += context['content']        
+        final_answer = qa_model(question=prompt, context=reranked_context)
         # Add user message to chat history
         st.session_state.messages.append({"role": "user", "content": prompt})
         # Add assistant response to chat history
