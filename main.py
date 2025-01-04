@@ -376,7 +376,7 @@ def main():
         with st.chat_message("assistant"):
           with st.container(height=300):
             response = st.write(final_answer)
-            st.video(result[0][1], start_time=int(result[0][2]))
+            st.video(final_result[0][0][1], start_time=int(final_result[0][0][2]))
             #st.video(result[0][1], start_time=int(result[0][2]))
             #response = st.write(final_answer, reranked_result)
             #st.session_state.messages.append({"role": "assistant", "content": response})
