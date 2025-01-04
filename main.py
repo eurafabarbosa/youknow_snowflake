@@ -324,7 +324,7 @@ def main():
         result = db.execute(
             """
             SELECT
-                youtube.text
+                youtube.text,
                 youtube.url
             FROM youtube_vec
             left join youtube on youtube.id = youtube_vec.id
