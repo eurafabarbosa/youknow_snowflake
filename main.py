@@ -336,21 +336,34 @@ def main():
             [sqlite_vec.serialize_float32(query)],
         ).fetchall()
         
-        context = " "
-        for text in result:
-          context += text[0]
-        final_answer = qa_model(question = prompt, context = context)
-        #context = []
+        #context = " "
         #for text in result:
+        #  context += text[0]
+        #final_answer = qa_model(question = prompt, context = context)
+        context = []
+        for text in result:
             #print(text[0])
-        #    text = text[0]
-        #    context.append(text)
-        #context = list(filter(None, context))
-        #reranked_result = rerank_model.rerank(query=question, documents=context, k=3)
-        #reranked_context=" "
-        #for context in reranked_result:
-        #    reranked_context += context['content']        
-        #final_answer = qa_model(question=prompt, context=reranked_context)
+            text = text[0]
+            context.append(text)
+        context = list(filter(None, context))
+        reranked_result = rerank_model.rerank(query=question, documents=context, k=3)
+        reranked_context=" "
+        final_result = []
+        for context in reranked_result:
+            reranked_context += context['content']
+            result = db.execute(
+                """
+                SELECT
+                    youtube.text,
+                    youtube.url,
+                    youtube.start
+                FROM youtube
+                WHERE text LIKE ?
+                """,
+                [context['content']],
+            ).fetchall()
+            final_result.append(result)        
+        final_answer = qa_model(question=prompt, context=reranked_context)
 
         # Add user message to chat history
         st.session_state.messages.append({"role": "user", "content": prompt})
