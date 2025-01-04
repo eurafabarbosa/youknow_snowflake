@@ -325,7 +325,8 @@ def main():
             """
             SELECT
                 youtube.text,
-                youtube.url
+                youtube.url,
+                youtube.start
             FROM youtube_vec
             left join youtube on youtube.id = youtube_vec.id
             WHERE embeddings MATCH ?
@@ -363,7 +364,7 @@ def main():
           with st.container(height=300):
             response = st.write(final_answer, result)
             st.write(result[0][1])
-            st.video(result[0][1])
+            st.video(result[0][1], start_time=int(result[0][2]))
             #response = st.write(final_answer, reranked_result)
             #st.session_state.messages.append({"role": "assistant", "content": response})
 
